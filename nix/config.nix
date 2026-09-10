@@ -61,7 +61,7 @@ in {
     historySize = 100000;
     historyFileSize = 100000;
 
-    programs.bash.shellAliases = {
+    shellAliases = {
       "gs" = "git status";
       "gd" = "git diff";
       "gb" = "git branch";
