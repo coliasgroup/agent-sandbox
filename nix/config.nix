@@ -90,11 +90,11 @@ in {
         text="\[$(tput setaf 2)\]"
 
         if printf '%s' "$LANG" | egrep -qi 'utf-?8'; then
-            lambda= "λ'
-            arrow= "→'
+            lambda='λ'
+            arrow='→'
         else
-            lambda= "\\'
-            arrow= "->'
+            lambda='\\'
+            arrow='->'
         fi
 
         PS1="$text \u@\h $symbol$lambda$text \w $symbol$arrow$reset "
@@ -107,7 +107,7 @@ in {
             # restore_tmpdir="$(declare -px TMPDIR 2>/dev/null)"
             # eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null)"
             # eval "$restore_tmpdir"
-            eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | grep -Ev '^declare -x TMP(DIR)?= ")"
+            eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | grep -Ev '^declare -x TMP(DIR)?=')"
           fi
         fi
       '')
