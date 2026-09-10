@@ -21,12 +21,13 @@ in {
 
   home.packages = with pkgs; [ 
     less
-    vim
     file
     curl
     wget
     nix
     cacert
+    bash-completion
+    nix-bash-completions
   ];
 
   programs.home-manager.enable = true;
@@ -55,14 +56,95 @@ in {
     };
   };
 
+  programs.vim = {
+    enable = true;
+
+    extraConfig = ''
+      noremap <space> <nop>
+      noremap <del> <nop>
+      noremap <bs> <nop>
+      noremap <cr> <nop>
+      noremap Y <nop>
+
+      nnoremap <space>j :bprev<cr>
+      nnoremap <space>k :bnext<cr>
+      nnoremap <space>d :Wipeout<cr>
+
+      nnoremap <space>n gT
+      nnoremap <space>m gt
+
+      nnoremap <space>q :quit<cr>
+      nnoremap <space>w :write<cr>
+      nnoremap <space>e :e<space>
+      nnoremap <space>t :tabe<space>
+      nnoremap <space>y :quit!<cr>
+
+      fun s:nrbufs()
+        let i = bufnr('$')
+        let j = 0
+        while i > 0
+          if buflisted(i)
+            let j += i
+          endif
+          let i -= 1
+        endwhile
+        return j
+      endfun
+
+      fun s:my_wipeout()
+        let n = s:nrbufs()
+        if n == 1
+          quit
+        else
+          bwipeout
+        endif
+      endfun
+
+      command Wipeout call <sid>my_wipeout()
+      command WWipeout write | Wipeout
+
+      inoremap <c-z> <esc>:WWipeout<cr>
+      noremap <c-z> :WWipeout<cr>
+    '';
+  };
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
     historySize = 100000;
     historyFileSize = 100000;
 
+    shellAliases = {
+      "gs" = "git status";
+      "gd" = "git diff";
+      "gb" = "git branch";
+      "ga" = "git add -A :/";
+      "gc" = "git commit";
+      "gx" = "gs && ga && gs && gcx";
+      "gca" = "git commit --amend";
+      "gcx" = "git commit -m x";
+      "gcy" = "git commit -m y";
+      "gcd" = "git commit -m d";
+      "gl" = "git log";
+      "glo" = "git log --oneline";
+      "gm" = "git submodule update --init --recursive";
+      "gri" = "git rebase -i";
+      "grc" = "git rebase --continue";
+      "gra" = "git rebase --abort";
+      "gk" = "git checkout";
+      "gkb" = "git checkout -b";
+    };
+
     initExtra = lib.mkMerge [
       ''
+        gdu() {
+            (
+                set -eux -o pipefail;
+                u=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+                git diff $u
+            )
+        }
+
         # Prompt
 
         reset="\[$(tput sgr0)\]"
