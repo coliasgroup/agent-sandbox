@@ -14,6 +14,7 @@
                 "haskell.haskell",
                 "haskell.language-haskell",
                 "oskarabrahamsson.hol4-mode",
+                "leanprover.lean4",
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
