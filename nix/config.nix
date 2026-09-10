@@ -61,6 +61,26 @@ in {
     historySize = 100000;
     historyFileSize = 100000;
 
+    programs.bash.shellAliases = {
+      "gs" = "git status";
+      "gd" = "git diff";
+      "gb" = "git branch";
+      "ga" = "git add -A :/";
+      "gc" = "git commit";
+      "gx" = "gs && ga && gs && gcx";
+      "gca" = "git commit --amend";
+      "gcx" = "git commit -m x";
+      "gcy" = "git commit -m y";
+      "gcd" = "git commit -m d";
+      "gl" = "git log";
+      "gm" = "git submodule update --init --recursive";
+      "gri" = "git rebase -i";
+      "grc" = "git rebase --continue";
+      "gra" = "git rebase --abort";
+      "gk" = "git checkout";
+      "gkb" = "git checkout -b";
+    };
+
     initExtra = lib.mkMerge [
       ''
         # Prompt
@@ -70,11 +90,11 @@ in {
         text="\[$(tput setaf 2)\]"
 
         if printf '%s' "$LANG" | egrep -qi 'utf-?8'; then
-            lambda='λ'
-            arrow='→'
+            lambda= "λ'
+            arrow= "→'
         else
-            lambda='\\'
-            arrow='->'
+            lambda= "\\'
+            arrow= "->'
         fi
 
         PS1="$text \u@\h $symbol$lambda$text \w $symbol$arrow$reset "
@@ -87,7 +107,7 @@ in {
             # restore_tmpdir="$(declare -px TMPDIR 2>/dev/null)"
             # eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null)"
             # eval "$restore_tmpdir"
-            eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | grep -Ev '^declare -x TMP(DIR)?=')"
+            eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | grep -Ev '^declare -x TMP(DIR)?= ")"
           fi
         fi
       '')
