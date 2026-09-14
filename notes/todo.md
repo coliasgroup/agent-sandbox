@@ -1,0 +1,2 @@
+- nix bash completion
+- vim ctrl-z :wq
