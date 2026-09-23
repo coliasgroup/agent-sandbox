@@ -134,6 +134,14 @@ in {
 
     initExtra = lib.mkMerge [
       ''
+        gdu() {
+            (
+                set -eux -o pipefail;
+                u=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+                git diff $u
+            )
+        }
+
         # Prompt
 
         reset="\[$(tput sgr0)\]"
