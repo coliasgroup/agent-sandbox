@@ -55,6 +55,58 @@ in {
     };
   };
 
+  programs.vim = {
+    enable = true;
+
+    extraConfig = ''
+      noremap <space> <nop>
+      noremap <del> <nop>
+      noremap <bs> <nop>
+      noremap <cr> <nop>
+      noremap Y <nop>
+
+      nnoremap <space>j :bprev<cr>
+      nnoremap <space>k :bnext<cr>
+      nnoremap <space>d :Wipeout<cr>
+
+      nnoremap <space>n gT
+      nnoremap <space>m gt
+
+      nnoremap <space>q :quit<cr>
+      nnoremap <space>w :write<cr>
+      nnoremap <space>e :e 
+      nnoremap <space>t :tabe 
+      nnoremap <space>y :quit!<cr>
+
+      fun s:nrbufs()
+        let i = bufnr('$')
+        let j = 0
+        while i > 0
+          if buflisted(i)
+            let j += i
+          endif
+          let i -= 1
+        endwhile
+        return j
+      endfun
+
+      fun s:my_wipeout()
+        let n = s:nrbufs()
+        if n == 1
+          quit
+        else
+          bwipeout
+        endif
+      endfun
+
+      command Wipeout call <sid>my_wipeout()
+      command WWipeout write | Wipeout
+
+      inoremap <c-z> <esc>:WWipeout<cr>
+      noremap <c-z> :WWipeout<cr>
+    '';
+  };
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
