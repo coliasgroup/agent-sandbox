@@ -21,7 +21,6 @@ in {
 
   home.packages = with pkgs; [ 
     less
-    vim
     file
     curl
     wget
