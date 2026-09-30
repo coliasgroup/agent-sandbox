@@ -124,6 +124,7 @@ in {
       "gcy" = "git commit -m y";
       "gcd" = "git commit -m d";
       "gl" = "git log";
+      "glo" = "git log --oneline";
       "gm" = "git submodule update --init --recursive";
       "gri" = "git rebase -i";
       "grc" = "git rebase --continue";
