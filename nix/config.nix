@@ -26,6 +26,7 @@ in {
     wget
     nix
     cacert
+    bash-completion
   ];
 
   programs.home-manager.enable = true;
